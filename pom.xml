@@ -28,7 +28,7 @@
     </scm>
     <properties>
         <java.version>17</java.version>
-        <junit-jupiter-api.version>5.9.1</junit-jupiter-api.version>
+        <junit-jupiter-api.version>5.10.3</junit-jupiter-api.version>
         <cucumber-junit.version>7.18.1</cucumber-junit.version>
         <openapi-generator-maven-plugin.version>7.8.0</openapi-generator-maven-plugin.version>
         <swagger-annotations.version>2.2.22</swagger-annotations.version>
@@ -113,6 +113,14 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
