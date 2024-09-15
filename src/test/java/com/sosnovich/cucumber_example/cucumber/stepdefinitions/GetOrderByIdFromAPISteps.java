@@ -1,4 +1,4 @@
-package com.sosnovich.cucumber_example.stepdefinitions;
+package com.sosnovich.cucumber_example.cucumber.stepdefinitions;
 
 import com.sosnovich.cucumber_example.entity.OrderEntity;
 import com.sosnovich.cucumber_example.model.OrderStatusEnum;
@@ -7,28 +7,24 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.spring.CucumberContextConfiguration;
 import io.restassured.RestAssured;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.math.BigDecimal;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-
-@ExtendWith(SpringExtension.class)
-@CucumberContextConfiguration
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GetOrderByIdFromAPIStepsIT {
+@SpringBootTest
+public class GetOrderByIdFromAPISteps {
     @Autowired
     private OrderRepository orderRepository;
+
     @LocalServerPort
-    private  int port;  // Spring Boot will assign a random port in the test context
+    private int port;  // Spring Boot will assign a random port in the test context
 
     @Before
     public void setUp() {
@@ -47,6 +43,7 @@ public class GetOrderByIdFromAPIStepsIT {
         order.setPrice(BigDecimal.valueOf(4.45));
         // Save the order to the test database
         orderRepository.save(order); // Use your repository or service to interact with the DB
+        Assertions.assertTrue(orderRepository.findById(3).isPresent());
     }
 
     @When("I call the REST API with the ID {int}")
@@ -57,7 +54,8 @@ public class GetOrderByIdFromAPIStepsIT {
                 .get("/order/" + arg0)  // Assuming this is your endpoint
                 .then()
                 .statusCode(200)  // Expect HTTP 200 OK response
-          .log().all();  // Log all response details
+                .log()
+                .all();  // Log all response details
     }
 
     @Then("I should get an order with ID {int} and item {string} and price {double}")
@@ -70,6 +68,6 @@ public class GetOrderByIdFromAPIStepsIT {
                 .log().all()  // Log all response details
                 .body("id", equalTo(arg0))  // Check that the ID matches
                 .body("item", equalTo(arg1))  // Check that the name matches
-                .body("price",equalTo(new BigDecimal(arg2).floatValue()));
+                .body("price", equalTo(new BigDecimal(arg2).floatValue()));
     }
 }

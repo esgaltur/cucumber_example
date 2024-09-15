@@ -14,4 +14,4 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = "com.sosnovich.cucumber_example.repository")
 @EnableTransactionManagement
 public class CucumberExampleConfiguration {
-}
+    }
